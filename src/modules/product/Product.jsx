@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams, Link } from "react-router-dom";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -15,7 +15,34 @@ const Product = () => {
       });
     });
   }, []);
-  if(!Object.keys(product).length > 0) return <div>Product Not Found</div>;
+  const handleCart = (product) => {
+    console.log(product);
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const isPorductExist = cart.find((item) => item.id === product.id);
+    if (isPorductExist) {
+      const updateCart = cart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(updateCart));
+    } else {
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([...cart, { ...product, quantity: 1 }])
+      );
+    }
+    alert("Product added to Cart");
+    // if (redirect) {
+    //   Navigate("/cart");
+    // }
+  };
+
+  if (!Object.keys(product).length > 0) return <div className="h-[55vh] flex justify-center items-center text-4xl">Product Not Found</div>;
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -168,10 +195,20 @@ const Product = () => {
                 ${product?.price}
               </span>
               <div className="flex">
-                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded mr-2">
+                <Link to={'/cart'}
+                  className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded mr-2"
+                  // onClick={() => {
+                  //   handleCart(product, true)
+                  // }}
+                >
                   Buy it now
-                </button>
-                <button className="flex ml-auto border border-indigo-500 py-2 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded">
+                </Link>
+                <button
+                  className="flex ml-auto border border-indigo-500 py-2 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
+                  onClick={() => {
+                    handleCart(product);
+                  }}
+                >
                   Add to cart
                 </button>
               </div>
