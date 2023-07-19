@@ -7,7 +7,7 @@ import Product from "./modules/product/Product";
 import ProductM from "./modules/Products/ProductM";
 import CategoryProduc from "./modules/categoryProduct/CategoryProduc";
 import Cart from "./modules/cart/Cart";
-
+import PageNotF from "./components/Page404/PageNotF";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/products" element={<ProductM />} />
         <Route path="/categories/:name" element={<CategoryProduc />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="*" element={<div className="text-4xl flex justify-center items-center h-[55vh]">404, Page Not Found</div>} />
+        <Route path="*" element={<PageNotF />} />
       </Routes>
       <Footer />
     </div>

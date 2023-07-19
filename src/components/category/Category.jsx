@@ -12,7 +12,12 @@ const Category = () => {
       });
     });
   }, []);
-  if (categories.length === 0) return <div className="h-[55vh] flex justify-center items-center text-4xl">Loading....</div>;
+  if (categories.length === 0)
+    return (
+      <div className="h-[55vh] flex justify-center items-center text-4xl">
+        Loading....
+      </div>
+    );
   return <Feature cards={categories} />;
 };
 
