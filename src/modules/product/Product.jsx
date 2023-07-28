@@ -42,7 +42,7 @@ const Product = () => {
     // }
   };
 
-  if (!Object.keys(product).length > 0) return <div className="h-[55vh] flex justify-center items-center text-4xl">Product Not Found</div>;
+  if (!Object.keys(product).length > 0) return <div className="h-[55vh] flex justify-center items-center text-4xl">Loading...</div>;
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
