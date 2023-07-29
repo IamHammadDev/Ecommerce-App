@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useParams, Link } from "react-router-dom";
+import React, { useEffect, useState, CSSProperties } from "react";
+import { useNavigate, useParams, Link, redirect } from "react-router-dom";
+import RingLoader from "react-spinners/RingLoader";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 const Product = () => {
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   console.log("Id", id, product);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let url = `https://fakestoreapi.com/products/${id}`;
@@ -37,12 +45,22 @@ const Product = () => {
       );
     }
     alert("Product added to Cart");
-    // if (redirect) {
-    //   Navigate("/cart");
-    // }
+    if (redirect) {
+      navigate("/cart");
+    }
   };
 
-  if (!Object.keys(product).length > 0) return <div className="h-[55vh] flex justify-center items-center text-4xl">Loading...</div>;
+  if (!Object.keys(product).length > 0)
+    return (
+      <RingLoader
+        color="yellowgreen"
+        loading={loading}
+        cssOverride={override}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -195,14 +213,14 @@ const Product = () => {
                 ${product?.price}
               </span>
               <div className="flex">
-                <Link to={'/cart'}
+                {/* <button
                   className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded mr-2"
-                  // onClick={() => {
-                  //   handleCart(product, true)
-                  // }}
+                  onClick={() => {
+                    handleCart(product, true);
+                  }}
                 >
                   Buy it now
-                </Link>
+                </button> */}
                 <button
                   className="flex ml-auto border border-indigo-500 py-2 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
                   onClick={() => {

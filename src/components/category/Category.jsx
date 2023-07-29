@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import Feature from "../../components/featureCard/Feature";
+import RingLoader from "react-spinners/RingLoader";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 const Category = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let url = "https://fakestoreapi.com/products/categories";
     fetch(url).then((response) => {
@@ -14,9 +21,14 @@ const Category = () => {
   }, []);
   if (categories.length === 0)
     return (
-      <div className="h-[55vh] flex justify-center items-center text-4xl">
-        Loading....
-      </div>
+      <RingLoader
+        color="yellowgreen"
+        loading={loading}
+        cssOverride={override}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     );
   return <Feature cards={categories} />;
 };
